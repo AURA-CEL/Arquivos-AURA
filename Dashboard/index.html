@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AURA: acompanhe a água e a chuva, de um jeito simples.">
+  <title>AURA · Acompanhe a água</title>
+  <link rel="icon" type="image/png" href="LOGO.png">
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="experience.css"><link rel="stylesheet" href="weather.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script defer src="script.js"></script>
+  <script defer src="weather.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <header class="site-header">
+    <a class="brand-logo" href="./" aria-label="AURA, início"><img src="LOGO.png" alt="AURA" width="652" height="680"></a>
+    
+    <div class="header-state" id="connection-status"><span class="status-dot offline"></span><span id="connection-label">Arduino desconectado</span></div>
+  </header>
+  <main id="main" class="experience">
+    <nav class="view-nav" aria-label="Navegação principal">
+      <button type="button" class="nav-item active" data-section="resumo" aria-current="page">Visão geral</button>
+      <button type="button" class="nav-item" data-section="tempo">Previsão do tempo</button>
+      <button type="button" class="nav-item" data-section="tecnico">Dados detalhados <span aria-hidden="true">↗</span></button>
+    </nav>
+    <section id="section-tempo" class="section" aria-labelledby="weather-title">
+      <div class="intro weather-intro"><div><p class="eyebrow">METEOROLOGIA</p><h1 id="weather-title">Previsão do tempo</h1><p>Condições atuais e previsão para 7 dias.</p></div></div>
+      <div class="weather-toolbar">
+        <form id="weather-search" role="search" aria-label="Buscar cidade para previsão">
+          <label for="weather-city">Cidade</label><div class="weather-search-field"><input id="weather-city" type="search" placeholder="Buscar outra cidade" minlength="2" maxlength="100" autocomplete="off" required><button type="submit" id="weather-search-button">Buscar</button></div>
+        </form>
+        <button type="button" id="weather-refresh" class="weather-refresh">↻ Atualizar previsão</button>
+      </div>
+      <p id="weather-search-status" class="weather-meta" role="status"></p>
+      <ul id="weather-results" class="weather-results" aria-label="Cidades encontradas" hidden></ul>
+      <p id="weather-load-status" class="weather-meta" role="status">A previsão será consultada ao abrir esta aba.</p>
+      <div id="weather-content" aria-busy="false">
+        <article class="forecast-hero" id="forecast-hero" data-sky="day">
+          <div class="forecast-place"><span class="weather-source-pill">PREVISÃO · OPEN-METEO</span><h2 id="forecast-city">Rio de Janeiro · RJ</h2><p id="forecast-local-time">Horários locais da cidade consultada</p></div>
+          <div class="forecast-temperature"><span id="forecast-icon" aria-hidden="true">☁</span><strong id="forecast-temp">—</strong><span id="forecast-condition">Aguardando previsão</span><p id="forecast-range">Máxima — · Mínima —</p></div>
+          <div class="forecast-takeaway"><p class="eyebrow">CHUVA HOJE</p><h3 id="forecast-headline">Previsão ainda não consultada.</h3><p id="forecast-description">A previsão vem de modelos meteorológicos e é independente dos sensores do AURA.</p></div>
+        </article>
+        <div class="forecast-metrics">
+          <article><h3>Chance de precipitação</h3><strong id="forecast-probability">—</strong><p>Maior probabilidade prevista para hoje.</p></article>
+          <article><h3>Precipitação hoje</h3><strong id="forecast-precipitation">—</strong><p>Volume previsto para o dia inteiro.</p></article>
+          <article><h3>Umidade do ar</h3><strong id="forecast-humidity">—</strong><p>Condição atual estimada pelo modelo.</p></article>
+          <article><h3>Vento</h3><strong id="forecast-wind">—</strong><p id="forecast-gusts">Rajadas previstas para hoje: —</p></article>
+        </div>
+        <article class="forecast-panel"><header><h2>Nas próximas 24 horas</h2><span>Temperatura · precipitação · umidade</span></header><div id="forecast-hourly" class="forecast-hourly" tabindex="0" role="region" aria-label="Previsão por hora, role horizontalmente"><p class="weather-empty">Aguardando consulta.</p></div></article>
+        <article class="forecast-panel"><header><h2>Hoje e os próximos 6 dias</h2><span>Volumes e probabilidades são previsões.</span></header><div id="forecast-daily" class="forecast-daily"><p class="weather-empty">Aguardando consulta.</p></div></article>
+      </div>
+      <aside class="official-alerts"><div><span class="weather-source-pill">AVISOS OFICIAIS</span><h2>Há avisos meteorológicos na sua região?</h2><p>Consulte os avisos do INMET para chuvas intensas, tempestades e baixa umidade. Os avisos não são importados automaticamente nesta versão.</p></div><a href="https://avisos.inmet.gov.br/" target="_blank" rel="noopener noreferrer">Consultar INMET ↗</a></aside>
+      <details class="explanation"><summary>Previsão e medição: qual é a diferença?</summary><div><p>A previsão estima o tempo na cidade selecionada. O Arduino mede o que acontece no ponto onde está instalado. A chance de precipitação não é a probabilidade de alagamento.</p><p>Precipitação inclui chuva, pancadas e, quando houver, neve. O volume diário corresponde ao dia inteiro, inclusive às horas que já passaram. A umidade indica a quantidade de vapor de água no ar.</p><p>A consulta é renovada a cada 15 minutos enquanto a aba estiver aberta. Os modelos têm seus próprios horários de atualização: consultar novamente não significa uma nova medição.</p></div></details>
+      <p class="weather-attribution">Previsão: <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Cidades: GeoNames via Open-Meteo.</p>
+    </section>
+    <section id="section-resumo" class="section active" aria-labelledby="overview-title">
+      <div class="intro"><div><p class="eyebrow">AURA</p><h1 id="overview-title">Monitoramento</h1><p>Água e chuva no ponto monitorado.</p></div><span class="prototype-tag">Projeto experimental</span></div>
+      <article class="situation" data-status="unknown" aria-labelledby="situation-title">
+        <div class="situation-content"><p class="eyebrow">SITUAÇÃO AGORA</p><div role="status" aria-live="polite" aria-atomic="true"><span class="situation-badge" id="simple-badge">Sem leitura</span><h2 id="situation-title">Aguardando leituras</h2><p id="situation-description">Conecte o Arduino para receber as medições.</p></div>
+        <button type="button" class="btn btn-primary" id="btn-connect-serial">Conectar Arduino</button><p class="freshness" id="simple-freshness">Nenhuma leitura recebida ainda.</p></div>
+        <div class="water-scene" aria-hidden="true"><span class="scene-caption">PONTO MONITORADO</span><div class="scene-orbit orbit-one"></div><div class="scene-orbit orbit-two"></div><div class="sensor-pole"><i></i><i></i><i></i></div><div class="scene-water"></div><span class="scene-label" id="scene-label">Aguardando dados</span></div>
+      </article>
+      <div class="simple-grid">
+        <article class="simple-card"><div class="metric-heading"><span class="metric-icon" aria-hidden="true">≋</span><h2>Nível da água</h2></div><strong class="metric-value" id="simple-level">Ainda sem leitura</strong><p id="simple-level-detail">A água é acompanhada em três alturas.</p><div class="sensor-steps" aria-hidden="true"><span></span><span></span><span></span></div><span class="metric-footnote">Detecção por faixas, sem medida em centímetros.</span></article>
+        <article class="simple-card"><div class="metric-heading"><span class="metric-icon" aria-hidden="true">☂</span><h2>Chuva registrada</h2></div><strong class="metric-value" id="simple-rain">Ainda sem leitura</strong><p id="simple-rain-detail">O pluviômetro mede a quantidade de chuva.</p><div class="rain-total" id="simple-rain-total">— <small>mm acumulados no equipamento</small></div><span class="metric-footnote">1 mm de chuva equivale a 1 litro por m².</span></article>
+      </div>
+      
+      
+    </section>
+    <section id="section-tecnico" class="section" aria-labelledby="technical-title"><div class="intro"><div><p class="eyebrow">EQUIPAMENTO</p><h1 id="technical-title">Dados detalhados</h1><p>Leituras, histórico e ferramentas do equipamento.</p></div></div><p class="technical-note" id="technical-freshness">Sem leituras. Os indicadores abaixo ainda não representam medições.</p><details open><summary>Evolução e indicadores</summary><p class="technical-note">Cada luz corresponde a um sensor instalado em uma altura. As marcações mostram a posição dos sensores, sem escala em centímetros.</p><section
+      id="section-painel"
+      class="technical-section"
+    >
+
+      <div class="section-header">
+
+        <h2>
+          Painel Geral
+        </h2>
+
+        <p class="section-subtitle">
+          Visão consolidada do monitoramento hidrológico em tempo real
+        </p>
+
+      </div>
+
+
+      <!-- PRIMEIRA LINHA -->
+
+      <div class="grid-overview">
+
+
+        <!-- INDICADOR DE RISCO -->
+
+        <article class="card live-ruler-card" aria-labelledby="live-ruler-title">
+  <header class="live-ruler-heading"><div><span class="ruler-eyebrow">NÍVEL DA ÁGUA</span><h3 id="live-ruler-title">Régua de sensores</h3></div><span class="ruler-connection" id="ruler-connection">Sem leitura</span></header>
+  <div class="live-ruler" aria-label="Estado dos sensores por altura">
+    <div class="ruler-spine" aria-hidden="true"></div>
+    <div class="ruler-sensor" id="ruler-superior" data-state="unknown"><span class="ruler-light" aria-hidden="true"></span><div class="ruler-sensor-label"><span>03 · SUPERIOR</span><strong>Faixa mais alta</strong></div><span class="ruler-sensor-state" id="ruler-state-superior">Sem leitura</span></div>
+    <div class="ruler-sensor" id="ruler-medio" data-state="unknown"><span class="ruler-light" aria-hidden="true"></span><div class="ruler-sensor-label"><span>02 · INTERMEDIÁRIO</span><strong>Faixa intermediária</strong></div><span class="ruler-sensor-state" id="ruler-state-medio">Sem leitura</span></div>
+    <div class="ruler-sensor" id="ruler-inferior" data-state="unknown"><span class="ruler-light" aria-hidden="true"></span><div class="ruler-sensor-label"><span>01 · INFERIOR</span><strong>Primeira faixa</strong></div><span class="ruler-sensor-state" id="ruler-state-inferior">Sem leitura</span></div>
+  </div>
+  <div class="ruler-caption"><span class="ruler-legend-light" aria-hidden="true"></span><span>Luz acesa: água detectada naquela altura.</span></div>
+  <p class="ruler-message" id="ruler-message" role="status">Aguardando leituras do equipamento.</p>
+</article>
+
+
+        <!-- TEMPO -->
+
+        
+
+
+        <!-- PLUVIÔMETRO -->
+
+        <article
+          class="card card-rain"
+          id="rain-dashboard"
+        >
+
+          <header class="card-header">
+
+            <h3>
+              Pluviômetro
+            </h3>
+
+            <span
+              class="badge"
+              id="rain-badge"
+            >
+              SEM CHUVA
+            </span>
+
+          </header>
+
+
+          <div class="rain-highlight">
+
+            <span class="rain-label">
+              Última hora observada
+            </span>
+
+            <div>
+
+              <strong id="rain-hour">
+                0,00
+              </strong>
+
+              <span class="rain-unit">
+                mm
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="rain-stats">
+
+
+            <div>
+
+              <span>
+                Últimas 24h observadas
+              </span>
+
+              <strong id="rain-24h">
+                0,00 mm
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Hoje, durante a sessão
+              </span>
+
+              <strong id="rain-day">
+                0,00 mm
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Evento atual
+              </span>
+
+              <strong id="rain-event">
+                0,00 mm
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Basculadas
+              </span>
+
+              <strong id="rain-tips">
+                0
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="rain-last">
+
+            <span>
+              Última basculada
+            </span>
+
+            <strong id="rain-last">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="rain-since">
+
+            <span>
+              Sem chuva há
+            </span>
+
+            <strong id="rain-since">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="rain-calibration">
+
+            <span>
+              Calibração experimental
+            </span>
+
+            <strong>
+              0,968 mm / basculada
+            </strong>
+
+          </div>
+
+        </article>
+
+
+        <!-- RÉGUA DO RIO -->
+
+        
+
+      </div>
+
+
+      <!-- GRÁFICO -->
+
+      <div class="grid-bottom">
+
+
+        <article class="card card-chart">
+
+          <header class="card-header">
+
+            <h3>
+              Evolução do índice
+            </h3>
+
+            <div class="chart-legend">
+
+              <span class="legend-dot"></span>
+
+              Nível da água
+
+            </div>
+
+          </header>
+
+
+          <div class="chart-container">
+
+            <canvas id="levelChart"></canvas>
+
+          </div>
+
+        </article>
+
+
+        <!-- LEITURAS -->
+
+        <article class="card card-timeline">
+
+          <header class="card-header">
+
+            <h3>
+              Leituras Recentes
+            </h3>
+
+          </header>
+
+
+          <div
+            class="timeline"
+            id="timeline-container"
+          ></div>
+
+        </article>
+
+      </div>
+
+    </section></details>
+<details><summary>Leituras dos sensores</summary><section
+      id="section-monitoramento"
+      class="technical-section"
+    >
+
+      <div class="section-header">
+
+        <h2>
+          Monitoramento
+        </h2>
+
+        <p class="section-subtitle">
+          Dados detalhados dos sensores e do pluviômetro
+        </p>
+
+      </div>
+
+
+      <article class="card">
+
+        <header class="card-header">
+
+          <h3>
+            Sensores de nível
+          </h3>
+
+        </header>
+
+
+        <div
+          class="monitoring-cards"
+          id="monitoring-cards"
+        ></div>
+
+      </article>
+
+
+      <article class="card">
+
+        <header class="card-header">
+
+          <h3>
+            Pluviômetro
+          </h3>
+
+        </header>
+
+
+        <div
+          class="monitoring-rain"
+          id="monitoring-rain"
+        ></div>
+
+      </article>
+
+
+      <article class="card">
+
+        <header class="card-header">
+
+          <h3>
+            Status do sistema
+          </h3>
+
+        </header>
+
+
+        <ul class="system-list">
+
+          <li>
+
+            <span class="sys-label">
+              Arduino
+            </span>
+
+            <span
+              class="sys-value"
+              id="sys-arduino"
+            >
+              Offline
+            </span>
+
+          </li>
+
+
+          <li>
+
+            <span class="sys-label">
+              Sensores
+            </span>
+
+            <span
+              class="sys-value"
+              id="sys-sensors"
+            >
+              0/3 ativos
+            </span>
+
+          </li>
+
+
+          <li>
+
+            <span class="sys-label">
+              Conexão serial
+            </span>
+
+            <span
+              class="sys-value"
+              id="sys-serial"
+            >
+              —
+            </span>
+
+          </li>
+
+
+          <li>
+
+            <span class="sys-label">
+              Último heartbeat
+            </span>
+
+            <span
+              class="sys-value"
+              id="sys-heartbeat"
+            >
+              —
+            </span>
+
+          </li>
+
+        </ul>
+
+      </article>
+
+    </section></details>
+<details><summary>Histórico da sessão</summary><section
+      id="section-historico"
+      class="technical-section"
+    >
+
+      <div class="section-header">
+
+        <h2>
+          Histórico
+        </h2>
+
+        <p class="section-subtitle">
+          Timeline de alterações do nível e eventos de chuva
+        </p>
+
+      </div>
+
+
+      <div
+        class="history-summary"
+        id="history-summary"
+      ></div>
+
+
+      <article class="card">
+
+        <div
+          class="timeline timeline-full"
+          id="timeline-full"
+        ></div>
+
+      </article>
+
+
+      <article class="card rain-history-card">
+
+        <header class="card-header">
+
+          <h3>
+            Eventos de chuva
+          </h3>
+
+        </header>
+
+
+        <div id="rain-events-history">
+
+          <p class="empty-history">
+            Ainda não há eventos de chuva registrados.
+          </p>
+
+        </div>
+
+      </article>
+
+    </section></details>
+<details><summary>Análises e exportação</summary><section
+      id="section-analises"
+      class="technical-section"
+    >
+
+      <div class="section-header">
+
+        <h2>
+          Análises
+        </h2>
+
+        <p class="section-subtitle">
+          Estatísticas e indicadores calculados pelo AURA
+        </p>
+
+      </div>
+
+
+      <div
+        class="analysis-grid"
+        id="analysis-grid"
+      ></div>
+
+
+      <article class="card">
+
+        <header class="card-header">
+
+          <h3>
+            Chuva
+          </h3>
+
+        </header>
+
+
+        <div
+          class="rain-analysis"
+          id="rain-analysis"
+        ></div>
+
+      </article>
+
+
+      <div class="analysis-actions">
+
+        <button
+          class="btn btn-primary"
+          id="btn-export-csv"
+          type="button"
+        >
+          Exportar CSV
+        </button>
+
+
+        <button
+          class="btn btn-secondary"
+          id="btn-export-report"
+          type="button"
+        >
+          Gerar relatório
+        </button>
+
+      </div>
+
+    </section></details>
+<details open><summary>Conexão e diagnóstico</summary><section
+      id="section-arduino"
+      class="technical-section"
+    >
+
+      <div class="section-header">
+
+        <h2>
+          Arduino
+        </h2>
+
+        <p class="section-subtitle">
+          Conexão e comunicação serial
+        </p>
+
+      </div>
+
+
+      <div class="arduino-grid">
+
+
+        <article class="card">
+
+          <header class="card-header">
+
+            <h3>
+              Conexão
+            </h3>
+
+            <span
+              class="badge"
+              id="arduino-mode-badge"
+            >
+              OFFLINE
+            </span>
+
+          </header>
+
+
+          <div class="connection-status-box">
+
+            <div
+              class="conn-indicator"
+              id="conn-indicator"
+            >
+
+              <span class="conn-dot"></span>
+
+            </div>
+
+
+            <div class="conn-info">
+
+              <strong id="conn-title">
+                Arduino desconectado
+              </strong>
+
+              <p id="conn-desc">
+                Conecte o Arduino para receber leituras reais.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="connection-actions">
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="btn-connect-serial-2"
+            >
+              Conectar via Serial
+            </button>
+
+
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="btn-disconnect"
+              disabled
+            >
+              Desconectar
+            </button>
+
+          </div>
+
+        </article>
+
+
+        <article class="card">
+
+          <header class="card-header">
+
+            <h3>
+              Status técnico
+            </h3>
+
+          </header>
+
+
+          <ul class="system-list">
+
+            <li>
+
+              <span class="sys-label">
+                Modo
+              </span>
+
+              <span
+                class="sys-value"
+                id="tech-mode"
+              >
+                Desconectado
+              </span>
+
+            </li>
+
+
+            <li>
+
+              <span class="sys-label">
+                Porta
+              </span>
+
+              <span
+                class="sys-value"
+                id="tech-port"
+              >
+                —
+              </span>
+
+            </li>
+
+
+            <li>
+
+              <span class="sys-label">
+                Baud rate
+              </span>
+
+              <span
+                class="sys-value"
+              >
+                115200
+              </span>
+
+            </li>
+
+
+            <li>
+
+              <span class="sys-label">
+                Bytes recebidos
+              </span>
+
+              <span
+                class="sys-value"
+                id="tech-bytes"
+              >
+                0
+              </span>
+
+            </li>
+
+
+            <li>
+
+              <span class="sys-label">
+                Erros
+              </span>
+
+              <span
+                class="sys-value"
+                id="tech-errors"
+              >
+                0
+              </span>
+
+            </li>
+
+          </ul>
+
+        </article>
+
+      </div>
+
+
+      <article class="card log-card">
+
+        <header class="card-header">
+
+          <h3>
+            Log de comunicação
+          </h3>
+
+          <button
+            class="btn btn-ghost btn-sm"
+            id="btn-clear-log"
+          >
+            Limpar
+          </button>
+
+        </header>
+
+
+        <div
+          class="serial-log"
+          id="serial-log"
+        ></div>
+
+      </article>
+
+    </section></details>
+<details><summary>Sobre o projeto</summary><section
+      id="section-sobre"
+      class="technical-section"
+    >
+
+      <div class="section-header">
+
+        <h2>
+          Sobre o AURA
+        </h2>
+
+        <p class="section-subtitle">
+          Tecnologia para prevenção de alagamentos
+        </p>
+
+      </div>
+
+
+      <article class="card about-card">
+
+        <div class="about-logo-card">
+
+          <img src="LOGO.png" alt="AURA" width="652" height="680">
+
+        </div>
+
+
+        <div class="about-content">
+
+          <h3>
+            Alerta de Urgência para Risco de Alagamentos
+          </h3>
+
+
+          <p>
+            O AURA é um protótipo de monitoramento de rios desenvolvido com Arduino.
+            Três sensores posicionados em alturas diferentes acompanham a presença
+            de água e acionam alertas visuais e sonoros conforme o nível aumenta.
+          </p>
+
+
+          <p>
+            O sistema também utiliza um pluviômetro de báscula com sensor Reed
+            para registrar a ocorrência e o volume de chuva.
+          </p>
+
+
+          <p>
+            As leituras recebem filtragem, calibração e histerese para reduzir
+            oscilações comuns em sensores de baixo custo.
+          </p>
+
+
+          <div class="about-authors">
+
+            <strong>
+              Desenvolvido por
+            </strong>
+
+            <span>
+              Sophia Marcelino e Vivian Nogueira
+            </span>
+
+            <span>
+              CEL NS
+            </span>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </section></details></section>
+  </main>
+  
+</body></html>
+
+
+
+
+

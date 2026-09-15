@@ -1,0 +1,43 @@
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const elements = new Map();
+const listeners = {};
+function element(id) {
+  if (!elements.has(id)) elements.set(id, {textContent:'',innerHTML:'',value:'',hidden:false,disabled:false,dataset:{},children:[],events:{},attributes:{},classList:{contains:()=>true},setAttribute(k,v){this.attributes[k]=v;},addEventListener(k,fn){this.events[k]=fn;},replaceChildren(){this.children=[];},appendChild(child){this.children.push(child);},focus(){}});
+  return elements.get(id);
+}
+const now = Math.floor(Date.now()/3600000)*3600;
+const fixture = {timezone:'America/Sao_Paulo',current:{time:now,temperature_2m:25,relative_humidity_2m:80,is_day:1,weather_code:61,wind_speed_10m:12},hourly:{time:Array.from({length:48},(_,i)=>now+i*3600),temperature_2m:Array(48).fill(25),relative_humidity_2m:Array(48).fill(80),precipitation_probability:Array(48).fill(60),precipitation:Array(48).fill(1.2),weather_code:Array(48).fill(61)},daily:{time:Array.from({length:7},(_,i)=>now+i*86400),temperature_2m_max:Array(7).fill(28),temperature_2m_min:Array(7).fill(20),precipitation_sum:Array(7).fill(4.5),precipitation_probability_max:Array(7).fill(70),weather_code:Array(7).fill(61),wind_gusts_10m_max:Array(7).fill(30)}};
+let responder = async () => ({ok:true,json:async()=>fixture});
+let calls=0;
+const ctx=vm.createContext({console,Date,Intl,Number,Math,String,URLSearchParams,AbortController,setTimeout,clearTimeout,setInterval(){},module:{exports:{}},fetch:(...args)=>{calls++;return responder(...args);},document:{hidden:false,getElementById:element,querySelector:()=>element('weather-tab'),createElement:()=>({children:[],addEventListener(k,fn){this[k]=fn;},appendChild(c){this.children.push(c);}}),addEventListener(k,fn){listeners[k]=fn;}}});
+vm.runInContext(fs.readFileSync(__dirname+'/weather.js','utf8'),ctx);
+const helpers=ctx.module.exports;
+(async()=>{
+  listeners.DOMContentLoaded();assert.equal(calls,0,'Forecast loads only when requested');
+  await element('weather-refresh').events.click();
+  assert.equal(element('forecast-temp').textContent,'25°');
+  assert.equal(element('forecast-humidity').textContent,'80%');
+  assert.equal(element('forecast-city').textContent,'Rio de Janeiro · RJ');
+  assert.equal((element('forecast-hourly').innerHTML.match(/class="forecast-hour"/g)||[]).length,24);
+  assert.equal((element('forecast-daily').innerHTML.match(/class="forecast-day"/g)||[]).length,7);
+  assert.equal(element('weather-content').attributes['aria-busy'],'false');
+  fixture.current.relative_humidity_2m=null;await element('weather-refresh').events.click();
+  assert.equal(element('forecast-humidity').textContent,'—','Missing humidity is not 0%');
+  responder=async()=>{throw new Error('offline');};await element('weather-refresh').events.click();
+  assert.match(element('weather-load-status').textContent,/consulta anterior/);
+  assert.equal(element('weather-refresh').disabled,false);
+  assert.throws(()=>helpers.validate({}),/incompleta/);
+  assert.equal(helpers.condition(95)[0],'Trovoadas');
+  assert.equal(helpers.unit(null,'%'),'—');
+  assert.match(helpers.forecastURL({latitude:1,longitude:2}),/forecast_days=7/);
+  element('weather-city').value='Cidade inexistente';responder=async()=>({ok:true,json:async()=>({results:[]})});
+  await element('weather-search').events.submit({preventDefault(){}});
+  assert.match(element('weather-search-status').textContent,/Nenhuma cidade/);
+  responder=async()=>({ok:true,json:async()=>({results:[{name:'<img onerror=bad>',admin1:'Teste',latitude:1,longitude:2}]})});
+  await element('weather-search').events.submit({preventDefault(){}});
+  assert.match(element('weather-results').children[0].children[0].textContent,/<img/,'City names use textContent');
+  assert.equal(element('weather-results').hidden,false);
+  console.log('PASS: lazy loading, actual render paths, 24 hours/7 days, missing fields, offline state, invalid response, city search and safe text rendering.');
+})().catch(error=>{console.error(error);process.exitCode=1;});

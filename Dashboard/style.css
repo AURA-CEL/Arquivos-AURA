@@ -1,0 +1,3184 @@
+/* ============================================================
+   AURA
+   ESTILO COMPLETO
+   ============================================================ */
+
+:root {
+
+  --navy:
+    #0B2C6B;
+
+  --turquoise:
+    #49B7D7;
+
+  --green:
+    #8DA63B;
+
+  --white:
+    #FFFFFF;
+
+  --gray-50:
+    #F4F7FA;
+
+  --gray-100:
+    #E8EEF4;
+
+  --gray-200:
+    #D1DCE8;
+
+  --gray-400:
+    #8A9BB0;
+
+  --gray-600:
+    #4A5A70;
+
+  --gray-800:
+    #1E2A3A;
+
+  --gray-900:
+    #0F1724;
+
+
+  --safe:
+    #8DA63B;
+
+  --attention:
+    #E8B339;
+
+  --alert:
+    #E67E22;
+
+  --danger:
+    #D64545;
+
+
+  --radius:
+    18px;
+
+  --radius-sm:
+    12px;
+
+
+  --shadow:
+    0 4px 20px
+    rgba(11,44,107,.06);
+
+  --shadow-hover:
+    0 8px 28px
+    rgba(11,44,107,.10);
+
+
+  --transition:
+    .28s cubic-bezier(
+      .4,
+      0,
+      .2,
+      1
+    );
+
+}
+
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+
+  box-sizing:
+    border-box;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+}
+
+
+html {
+
+  font-size:
+    16px;
+
+  scroll-behavior:
+    smooth;
+
+}
+
+
+body {
+
+  min-height:
+    100vh;
+
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif;
+
+  color:
+    var(--gray-800);
+
+  background:
+    linear-gradient(
+      160deg,
+      #EAF4F9 0%,
+      #F0F6FA 35%,
+      #E8F0F5 70%,
+      #F2F7FB 100%
+    );
+
+  line-height:
+    1.5;
+
+  overflow-x:
+    hidden;
+
+}
+
+
+/* ============================================================
+   FUNDO
+   ============================================================ */
+
+.bg-waves {
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  pointer-events:
+    none;
+
+  overflow:
+    hidden;
+
+  z-index:
+    0;
+
+}
+
+
+.wave {
+
+  position:
+    absolute;
+
+  border-radius:
+    50%;
+
+  opacity:
+    .045;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--turquoise),
+      transparent 70%
+    );
+
+}
+
+
+.wave-1 {
+
+  width:
+    70vw;
+
+  height:
+    70vw;
+
+  top:
+    -20%;
+
+  right:
+    -15%;
+
+}
+
+
+.wave-2 {
+
+  width:
+    50vw;
+
+  height:
+    50vw;
+
+  bottom:
+    -10%;
+
+  left:
+    -10%;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--navy),
+      transparent 70%
+    );
+
+}
+
+
+.wave-3 {
+
+  width:
+    40vw;
+
+  height:
+    40vw;
+
+  top:
+    40%;
+
+  left:
+    30%;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--green),
+      transparent 70%
+    );
+
+}
+
+
+/* ============================================================
+   TOPO
+   ============================================================ */
+
+.top-bar {
+
+  position:
+    relative;
+
+  z-index:
+    10;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+
+  padding:
+    .9rem 2rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      .88
+    );
+
+  backdrop-filter:
+    blur(12px);
+
+  border-bottom:
+    1px solid
+    rgba(
+      11,
+      44,
+      107,
+      .06
+    );
+
+}
+
+
+.top-bar__brand {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    .9rem;
+
+}
+
+
+.logo {
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  flex-shrink:
+    0;
+
+}
+
+
+.logo img {
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  object-fit:
+    contain;
+
+  display:
+    block;
+
+}
+
+
+.brand-text h1 {
+
+  font-size:
+    1.35rem;
+
+  color:
+    var(--navy);
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .04em;
+
+  line-height:
+    1.1;
+
+}
+
+
+.brand-text span {
+
+  font-size:
+    .7rem;
+
+  color:
+    var(--gray-600);
+
+}
+
+
+.top-bar__meta {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    1rem;
+
+  font-size:
+    .78rem;
+
+  color:
+    var(--gray-600);
+
+}
+
+
+.meta-item {
+
+  white-space:
+    nowrap;
+
+}
+
+
+.connection {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    .4rem;
+
+}
+
+
+.status-dot {
+
+  width:
+    8px;
+
+  height:
+    8px;
+
+  border-radius:
+    50%;
+
+}
+
+
+.status-dot.online {
+
+  background:
+    var(--safe);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      141,
+      166,
+      59,
+      .2
+    );
+
+}
+
+
+.status-dot.offline {
+
+  background:
+    var(--danger);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      214,
+      69,
+      69,
+      .15
+    );
+
+}
+
+
+/* ============================================================
+   MENU
+   ============================================================ */
+
+.main-nav {
+
+  position:
+    relative;
+
+  z-index:
+    10;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      .7
+    );
+
+  border-bottom:
+    1px solid
+    rgba(
+      11,
+      44,
+      107,
+      .05
+    );
+
+  padding:
+    0 2rem;
+
+}
+
+
+.nav-list {
+
+  display:
+    flex;
+
+  list-style:
+    none;
+
+  gap:
+    .25rem;
+
+  overflow-x:
+    auto;
+
+}
+
+
+.nav-item {
+
+  position:
+    relative;
+
+  border:
+    0;
+
+  background:
+    none;
+
+  color:
+    var(--gray-600);
+
+  font-family:
+    inherit;
+
+  font-size:
+    .875rem;
+
+  font-weight:
+    500;
+
+  padding:
+    .95rem 1.15rem;
+
+  cursor:
+    pointer;
+
+  white-space:
+    nowrap;
+
+}
+
+
+.nav-item:hover,
+.nav-item.active {
+
+  color:
+    var(--navy);
+
+}
+
+
+.nav-item.active {
+
+  font-weight:
+    600;
+
+}
+
+
+.nav-item.active::after {
+
+  content:
+    '';
+
+  position:
+    absolute;
+
+  left:
+    1.15rem;
+
+  right:
+    1.15rem;
+
+  bottom:
+    0;
+
+  height:
+    2.5px;
+
+  background:
+    var(--turquoise);
+
+}
+
+
+/* ============================================================
+   CONTEÚDO
+   ============================================================ */
+
+.app-content {
+
+  position:
+    relative;
+
+  z-index:
+    5;
+
+  max-width:
+    1440px;
+
+  margin:
+    0 auto;
+
+  padding:
+    1.75rem 2rem 3rem;
+
+}
+
+
+.section {
+
+  display:
+    none;
+
+}
+
+
+.section.active {
+
+  display:
+    block;
+
+}
+
+
+.section-header {
+
+  margin-bottom:
+    1.5rem;
+
+}
+
+
+.section-header h2 {
+
+  color:
+    var(--navy);
+
+  font-size:
+    1.45rem;
+
+  font-weight:
+    600;
+
+}
+
+
+.section-subtitle {
+
+  margin-top:
+    .25rem;
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .875rem;
+
+}
+
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+
+.card {
+
+  background:
+    var(--white);
+
+  border:
+    1px solid
+    rgba(
+      11,
+      44,
+      107,
+      .04
+    );
+
+  border-radius:
+    var(--radius);
+
+  box-shadow:
+    var(--shadow);
+
+  padding:
+    1.35rem 1.5rem;
+
+}
+
+
+.card-header {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+
+  margin-bottom:
+    1.1rem;
+
+}
+
+
+.card-header h3 {
+
+  color:
+    var(--navy);
+
+  font-size:
+    .95rem;
+
+  font-weight:
+    600;
+
+}
+
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+
+.badge {
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    .3rem .7rem;
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(
+      141,
+      166,
+      59,
+      .15
+    );
+
+  color:
+    var(--safe);
+
+  font-size:
+    .7rem;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    .04em;
+
+  white-space:
+    nowrap;
+
+}
+
+
+.badge.attention {
+
+  background:
+    rgba(
+      232,
+      179,
+      57,
+      .18
+    );
+
+  color:
+    #B8860B;
+
+}
+
+
+.badge.alert {
+
+  background:
+    rgba(
+      230,
+      126,
+      34,
+      .15
+    );
+
+  color:
+    var(--alert);
+
+}
+
+
+.badge.danger {
+
+  background:
+    rgba(
+      214,
+      69,
+      69,
+      .15
+    );
+
+  color:
+    var(--danger);
+
+}
+
+
+.badge.rain-active {
+
+  background:
+    rgba(
+      73,
+      183,
+      215,
+      .15
+    );
+
+  color:
+    var(--turquoise);
+
+}
+
+
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+
+.btn {
+
+  border:
+    0;
+
+  border-radius:
+    10px;
+
+  padding:
+    .65rem 1rem;
+
+  font-family:
+    inherit;
+
+  font-size:
+    .8rem;
+
+  font-weight:
+    600;
+
+  cursor:
+    pointer;
+
+}
+
+
+.btn-primary {
+
+  background:
+    var(--navy);
+
+  color:
+    white;
+
+}
+
+
+.btn-secondary {
+
+  background:
+    var(--gray-100);
+
+  color:
+    var(--navy);
+
+}
+
+
+.btn-ghost {
+
+  background:
+    transparent;
+
+  color:
+    var(--gray-600);
+
+}
+
+
+.btn-sm {
+
+  padding:
+    .4rem .7rem;
+
+}
+
+
+.btn:disabled {
+
+  opacity:
+    .5;
+
+  cursor:
+    not-allowed;
+
+}
+
+
+/* ============================================================
+   GRID PRINCIPAL
+   ============================================================ */
+
+.grid-overview {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1.25fr
+    1fr
+    1fr
+    1fr
+    .46fr;
+
+  gap:
+    1.25rem;
+
+  margin-bottom:
+    1.25rem;
+
+}
+
+
+/* ============================================================
+   GAUGE
+   ============================================================ */
+
+.card-gauge {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+}
+
+
+.gauge-wrapper {
+
+  position:
+    relative;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+}
+
+
+.gauge-svg {
+
+  width:
+    100%;
+
+  max-width:
+    240px;
+
+}
+
+
+.gauge-track {
+
+  stroke:
+    var(--gray-100);
+
+}
+
+
+.gauge-progress {
+
+  stroke:
+    var(--safe);
+
+  stroke-dasharray:
+    283;
+
+  stroke-dashoffset:
+    283;
+
+  transition:
+    stroke-dashoffset .8s,
+    stroke .5s;
+
+}
+
+
+.gauge-needle {
+
+  transform-origin:
+    110px 120px;
+
+  transition:
+    transform .8s;
+
+}
+
+
+.gauge-value {
+
+  position:
+    absolute;
+
+  bottom:
+    28px;
+
+  text-align:
+    center;
+
+}
+
+
+.gauge-value span {
+
+  color:
+    var(--navy);
+
+  font-size:
+    2rem;
+
+  font-weight:
+    700;
+
+}
+
+
+.gauge-value small {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+}
+
+
+.gauge-labels {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  width:
+    100%;
+
+  max-width:
+    220px;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.gauge-status-text {
+
+  margin-top:
+    .75rem;
+
+  text-align:
+    center;
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .8rem;
+
+}
+
+
+/* ============================================================
+   NÍVEL
+   ============================================================ */
+
+.level-display {
+
+  display:
+    flex;
+
+  align-items:
+    baseline;
+
+  gap:
+    .35rem;
+
+  margin-bottom:
+    1rem;
+
+}
+
+
+.level-number {
+
+  color:
+    var(--navy);
+
+  font-size:
+    2.75rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1;
+
+}
+
+
+.level-unit {
+
+  color:
+    var(--gray-400);
+
+}
+
+
+.level-bar-container {
+
+  height:
+    8px;
+
+  overflow:
+    hidden;
+
+  margin-bottom:
+    1.25rem;
+
+  border-radius:
+    999px;
+
+  background:
+    var(--gray-100);
+
+}
+
+
+.level-bar {
+
+  width:
+    0%;
+
+  height:
+    100%;
+
+  border-radius:
+    999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--green),
+      var(--turquoise)
+    );
+
+  transition:
+    width .7s,
+    background .5s;
+
+}
+
+
+.level-meta {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+}
+
+
+.level-meta .label {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.level-meta strong {
+
+  color:
+    var(--navy);
+
+}
+
+
+/* ============================================================
+   TEMPO
+   ============================================================ */
+
+.card-weather {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+}
+
+
+.weather-place {
+
+  margin-bottom:
+    1rem;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .75rem;
+
+}
+
+
+.weather-main {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+
+  margin-bottom:
+    1.2rem;
+
+}
+
+
+.weather-reading {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    .3rem;
+
+}
+
+
+.weather-main strong {
+
+  color:
+    var(--navy);
+
+  font-size:
+    2.5rem;
+
+}
+
+
+.weather-main span {
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .8rem;
+
+}
+
+
+.weather-icon {
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  width:
+    58px;
+
+  height:
+    58px;
+
+  border-radius:
+    50%;
+
+  background:
+    #eefaff;
+
+  font-size:
+    2rem;
+
+}
+
+
+.weather-details {
+
+  display:
+    grid;
+
+  gap:
+    .55rem;
+
+}
+
+
+.weather-details div {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  padding-top:
+    .55rem;
+
+  border-top:
+    1px solid
+    var(--gray-200);
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .75rem;
+
+}
+
+
+.weather-details strong {
+
+  color:
+    var(--navy);
+
+}
+
+
+/* ============================================================
+   PLUVIÔMETRO
+   ============================================================ */
+
+.card-rain {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+}
+
+
+.rain-highlight {
+
+  position:
+    relative;
+
+  padding:
+    .2rem 0 1.1rem;
+
+}
+
+
+.rain-highlight::after {
+
+  content:
+    '☔';
+
+  position:
+    absolute;
+
+  right:
+    0;
+
+  top:
+    0;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  width:
+    48px;
+
+  height:
+    48px;
+
+  border-radius:
+    50%;
+
+  background:
+    #eefaff;
+
+  font-size:
+    1.5rem;
+
+}
+
+
+.rain-label {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.rain-highlight strong {
+
+  color:
+    var(--navy);
+
+  font-size:
+    2.3rem;
+
+  line-height:
+    1;
+
+}
+
+
+.rain-unit {
+
+  margin-left:
+    .25rem;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .85rem;
+
+}
+
+
+.rain-stats {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    .7rem;
+
+}
+
+
+.rain-stats > div {
+
+  padding-top:
+    .65rem;
+
+  border-top:
+    1px solid
+    var(--gray-200);
+
+}
+
+
+.rain-stats span {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .65rem;
+
+}
+
+
+.rain-stats strong {
+
+  color:
+    var(--navy);
+
+  font-size:
+    .85rem;
+
+}
+
+
+.rain-last,
+.rain-since {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    .5rem;
+
+  padding-top:
+    .7rem;
+
+  margin-top:
+    .7rem;
+
+  border-top:
+    1px solid
+    var(--gray-100);
+
+}
+
+
+.rain-last span,
+.rain-since span {
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .65rem;
+
+}
+
+
+.rain-last strong,
+.rain-since strong {
+
+  color:
+    var(--navy);
+
+  font-size:
+    .75rem;
+
+}
+
+
+.rain-calibration {
+
+  margin-top:
+    auto;
+
+  padding-top:
+    .8rem;
+
+  border-top:
+    1px solid
+    var(--gray-100);
+
+}
+
+
+.rain-calibration span {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .63rem;
+
+}
+
+
+.rain-calibration strong {
+
+  color:
+    var(--turquoise);
+
+  font-size:
+    .72rem;
+
+}
+
+
+/* ============================================================
+   RÉGUA DO RIO
+   ============================================================ */
+
+.river-ruler {
+
+  position:
+    relative;
+
+  width:
+    auto;
+
+  min-height:
+    390px;
+
+  padding:
+    1rem .75rem;
+
+  border:
+    1px solid
+    rgba(
+      73,
+      183,
+      215,
+      .2
+    );
+
+  border-radius:
+    22px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      .94
+    );
+
+  text-align:
+    center;
+
+}
+
+
+.river-ruler-title {
+
+  margin-bottom:
+    .8rem;
+
+  color:
+    var(--navy);
+
+  font-size:
+    .78rem;
+
+  font-weight:
+    800;
+
+}
+
+
+.river-ruler-scale {
+
+  position:
+    relative;
+
+  height:
+    310px;
+
+  overflow:
+    hidden;
+
+  border:
+    2px solid
+    #B9DDEA;
+
+  border-radius:
+    14px;
+
+  background:
+    linear-gradient(
+      to top,
+      #eefaff,
+      #fff
+    );
+
+}
+
+
+.river-water {
+
+  position:
+    absolute;
+
+  left:
+    0;
+
+  bottom:
+    0;
+
+  width:
+    100%;
+
+  height:
+    0%;
+
+  transition:
+    height .9s;
+
+}
+
+
+.river-indicator {
+
+  position:
+    absolute;
+
+  right:
+    -8px;
+
+  bottom:
+    0;
+
+  width:
+    calc(
+      100% + 16px
+    );
+
+  height:
+    30px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    white;
+
+  border-radius:
+    16px;
+
+  font-size:
+    .7rem;
+
+  font-weight:
+    800;
+
+  transform:
+    translateY(50%);
+
+  transition:
+    bottom .9s,
+    background .5s;
+
+}
+
+
+.ruler-mark {
+
+  position:
+    absolute;
+
+  left:
+    6px;
+
+  z-index:
+    2;
+
+  color:
+    #506783;
+
+  font-size:
+    .55rem;
+
+  font-weight:
+    700;
+
+}
+
+
+.ruler-critical {
+  top: 8%;
+}
+
+
+.ruler-alert {
+  top: 36%;
+}
+
+
+.ruler-attention {
+  top: 64%;
+}
+
+
+.ruler-safe {
+  bottom: 8%;
+}
+
+
+.river-ruler > strong {
+
+  display:
+    block;
+
+  margin-top:
+    .8rem;
+
+  color:
+    var(--navy);
+
+  font-size:
+    .7rem;
+
+}
+
+
+/* ============================================================
+   GRÁFICO
+   ============================================================ */
+
+.grid-bottom {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1.6fr
+    1fr;
+
+  gap:
+    1.25rem;
+
+}
+
+
+.card-chart {
+
+  min-height:
+    320px;
+
+}
+
+
+.chart-container {
+
+  position:
+    relative;
+
+  height:
+    260px;
+
+}
+
+
+.chart-legend {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    .4rem;
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.legend-dot {
+
+  width:
+    10px;
+
+  height:
+    10px;
+
+  border-radius:
+    3px;
+
+  background:
+    var(--turquoise);
+
+}
+
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+
+.timeline {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+}
+
+
+.timeline-item {
+
+  display:
+    flex;
+
+  gap:
+    .8rem;
+
+  padding:
+    .7rem 0;
+
+  border-bottom:
+    1px solid
+    var(--gray-100);
+
+}
+
+
+.timeline-icon {
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  width:
+    32px;
+
+  height:
+    32px;
+
+  flex-shrink:
+    0;
+
+  border-radius:
+    10px;
+
+}
+
+
+.timeline-icon.safe {
+
+  background:
+    rgba(
+      141,
+      166,
+      59,
+      .15
+    );
+
+}
+
+
+.timeline-icon.attention {
+
+  background:
+    rgba(
+      232,
+      179,
+      57,
+      .18
+    );
+
+}
+
+
+.timeline-icon.alert {
+
+  background:
+    rgba(
+      230,
+      126,
+      34,
+      .15
+    );
+
+}
+
+
+.timeline-icon.danger {
+
+  background:
+    rgba(
+      214,
+      69,
+      69,
+      .15
+    );
+
+}
+
+
+.timeline-content {
+
+  min-width:
+    0;
+
+}
+
+
+.timeline-time {
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.timeline-level {
+
+  color:
+    var(--navy);
+
+  font-size:
+    .85rem;
+
+  font-weight:
+    600;
+
+}
+
+
+.timeline-status {
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.timeline-full {
+
+  max-height:
+    500px;
+
+  overflow-y:
+    auto;
+
+}
+
+
+/* ============================================================
+   MONITORAMENTO
+   ============================================================ */
+
+.monitoring-cards {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+  gap:
+    1rem;
+
+}
+
+
+.monitor-card {
+
+  padding:
+    1rem;
+
+  border:
+    1px solid
+    var(--gray-100);
+
+  border-radius:
+    var(--radius-sm);
+
+  background:
+    #f8fbfd;
+
+}
+
+
+.monitor-label {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.monitor-card strong {
+
+  display:
+    block;
+
+  margin:
+    .4rem 0;
+
+  color:
+    var(--gray-600);
+
+}
+
+
+.monitor-card strong.active {
+
+  color:
+    var(--turquoise);
+
+}
+
+
+.monitor-card small {
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.monitoring-rain {
+
+  width:
+    100%;
+
+}
+
+
+.rain-monitor-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+  gap:
+    1rem;
+
+}
+
+
+.rain-monitor-grid > div {
+
+  padding:
+    1rem;
+
+  border:
+    1px solid
+    var(--gray-100);
+
+  border-radius:
+    var(--radius-sm);
+
+}
+
+
+.rain-monitor-grid span {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.rain-monitor-grid strong {
+
+  color:
+    var(--navy);
+
+  font-size:
+    1.15rem;
+
+}
+
+
+/* ============================================================
+   SISTEMA
+   ============================================================ */
+
+.system-list {
+
+  list-style:
+    none;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    .75rem;
+
+}
+
+
+.system-list li {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+
+  padding-bottom:
+    .65rem;
+
+  border-bottom:
+    1px solid
+    var(--gray-100);
+
+}
+
+
+.sys-label {
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .8rem;
+
+}
+
+
+.sys-value {
+
+  color:
+    var(--navy);
+
+  font-size:
+    .8rem;
+
+  font-weight:
+    600;
+
+}
+
+
+.sys-value.online {
+
+  color:
+    var(--safe);
+
+}
+
+
+/* ============================================================
+   HISTÓRICO
+   ============================================================ */
+
+.history-summary {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      1fr
+    );
+
+  gap:
+    1rem;
+
+  margin-bottom:
+    1.25rem;
+
+}
+
+
+.history-summary div {
+
+  padding:
+    1rem;
+
+  border-radius:
+    var(--radius-sm);
+
+  background:
+    white;
+
+  box-shadow:
+    var(--shadow);
+
+}
+
+
+.history-summary span {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.history-summary strong {
+
+  display:
+    block;
+
+  margin-top:
+    .3rem;
+
+  color:
+    var(--navy);
+
+  font-size:
+    1.25rem;
+
+}
+
+
+.rain-history-card {
+
+  margin-top:
+    1.25rem;
+
+}
+
+
+.rain-event-row {
+
+  padding:
+    .9rem 0;
+
+  border-bottom:
+    1px solid
+    var(--gray-100);
+
+}
+
+
+.rain-event-row strong {
+
+  display:
+    block;
+
+  color:
+    var(--navy);
+
+}
+
+
+.rain-event-row span {
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .75rem;
+
+}
+
+
+.empty-history {
+
+  padding:
+    1rem 0;
+
+  color:
+    var(--gray-400);
+
+}
+
+
+/* ============================================================
+   ANÁLISES
+   ============================================================ */
+
+.analysis-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      1fr
+    );
+
+  gap:
+    1rem;
+
+  margin-bottom:
+    1.25rem;
+
+}
+
+
+.analysis-metric {
+
+  padding:
+    1rem;
+
+  border:
+    1px solid
+    #e1edf3;
+
+  border-radius:
+    var(--radius-sm);
+
+  background:
+    #f7fbfd;
+
+}
+
+
+.analysis-metric span,
+.analysis-metric small {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.analysis-metric strong {
+
+  display:
+    block;
+
+  margin:
+    .4rem 0;
+
+  color:
+    var(--navy);
+
+  font-size:
+    1.1rem;
+
+}
+
+
+.rain-analysis-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      1fr
+    );
+
+  gap:
+    1rem;
+
+}
+
+
+.rain-analysis-grid > div {
+
+  padding:
+    1rem;
+
+  border:
+    1px solid
+    var(--gray-100);
+
+  border-radius:
+    var(--radius-sm);
+
+}
+
+
+.rain-analysis-grid span {
+
+  display:
+    block;
+
+  color:
+    var(--gray-400);
+
+  font-size:
+    .7rem;
+
+}
+
+
+.rain-analysis-grid strong {
+
+  color:
+    var(--navy);
+
+  font-size:
+    1.15rem;
+
+}
+
+
+.analysis-actions {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    .75rem;
+
+  margin-top:
+    1.25rem;
+
+}
+
+
+/* ============================================================
+   ARDUINO
+   ============================================================ */
+
+.arduino-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1.4fr
+    1fr;
+
+  gap:
+    1.25rem;
+
+}
+
+
+.connection-status-box {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    1rem;
+
+  padding:
+    1rem;
+
+  border-radius:
+    var(--radius-sm);
+
+  background:
+    var(--gray-50);
+
+}
+
+
+.conn-indicator {
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--gray-200);
+
+}
+
+
+.conn-indicator.connected {
+
+  background:
+    rgba(
+      141,
+      166,
+      59,
+      .2
+    );
+
+}
+
+
+.conn-dot {
+
+  width:
+    12px;
+
+  height:
+    12px;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--gray-400);
+
+}
+
+
+.conn-indicator.connected .conn-dot {
+
+  background:
+    var(--safe);
+
+}
+
+
+.conn-info strong {
+
+  display:
+    block;
+
+  color:
+    var(--navy);
+
+}
+
+
+.conn-info p {
+
+  margin-top:
+    .25rem;
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .75rem;
+
+}
+
+
+.connection-actions {
+
+  display:
+    flex;
+
+  gap:
+    .75rem;
+
+  flex-wrap:
+    wrap;
+
+  margin-top:
+    1rem;
+
+}
+
+
+.log-card {
+
+  margin-top:
+    1.25rem;
+
+}
+
+
+.serial-log {
+
+  min-height:
+    150px;
+
+  max-height:
+    260px;
+
+  overflow-y:
+    auto;
+
+  padding:
+    1rem;
+
+  border-radius:
+    var(--radius-sm);
+
+  background:
+    var(--gray-900);
+
+  color:
+    #B8C5D6;
+
+  font-family:
+    ui-monospace,
+    monospace;
+
+  font-size:
+    .75rem;
+
+}
+
+
+.log-entry {
+
+  padding:
+    .15rem 0;
+
+}
+
+
+.log-info {
+
+  color:
+    #7EB8D4;
+
+}
+
+
+.log-data {
+
+  color:
+    #A8D08D;
+
+}
+
+
+.log-error {
+
+  color:
+    #E88A8A;
+
+}
+
+
+.log-warn {
+
+  color:
+    #E8C07A;
+
+}
+
+
+/* ============================================================
+   SOBRE
+   ============================================================ */
+
+.about-card {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    .55fr
+    1.45fr;
+
+  gap:
+    2rem;
+
+  align-items:
+    center;
+
+}
+
+
+.about-logo-card {
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  min-height:
+    260px;
+
+  padding:
+    1.5rem;
+
+  border-radius:
+    18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eaf9fe,
+      #fff
+    );
+
+}
+
+
+.about-logo-card img {
+
+  width:
+    100%;
+
+  max-width:
+    230px;
+
+}
+
+
+.about-content h3 {
+
+  margin-bottom:
+    1rem;
+
+  color:
+    var(--navy);
+
+}
+
+
+.about-content p {
+
+  margin:
+    .75rem 0;
+
+  color:
+    var(--gray-600);
+
+  line-height:
+    1.7;
+
+}
+
+
+.about-authors {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    .25rem;
+
+  margin-top:
+    1.5rem;
+
+  padding-top:
+    1.25rem;
+
+  border-top:
+    1px solid
+    var(--gray-200);
+
+  color:
+    var(--navy);
+
+}
+
+
+/* ============================================================
+   RODAPÉ
+   ============================================================ */
+
+.app-footer {
+
+  position:
+    relative;
+
+  z-index:
+    5;
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+
+  padding:
+    1.25rem 2rem;
+
+  border-top:
+    1px solid
+    var(--gray-200);
+
+  color:
+    var(--gray-600);
+
+  font-size:
+    .7rem;
+
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+
+@media (
+  max-width: 1200px
+) {
+
+  .grid-overview {
+
+    grid-template-columns:
+      repeat(
+        2,
+        1fr
+      );
+
+  }
+
+}
+
+
+@media (
+  max-width: 900px
+) {
+
+  .top-bar {
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+  }
+
+
+  .top-bar__meta {
+
+    width:
+      100%;
+
+    overflow-x:
+      auto;
+
+  }
+
+
+  .grid-bottom {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .arduino-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .monitoring-cards {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .rain-monitor-grid {
+
+    grid-template-columns:
+      repeat(
+        2,
+        1fr
+      );
+
+  }
+
+
+  .rain-analysis-grid {
+
+    grid-template-columns:
+      repeat(
+        2,
+        1fr
+      );
+
+  }
+
+}
+
+
+@media (
+  max-width: 700px
+) {
+
+  .app-content {
+
+    padding:
+      1.25rem 1rem 2rem;
+
+  }
+
+
+  .main-nav {
+
+    padding:
+      0 1rem;
+
+  }
+
+
+  .grid-overview {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .history-summary {
+
+    grid-template-columns:
+      1fr 1fr;
+
+  }
+
+
+  .about-card {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .about-logo-card {
+
+    min-height:
+      180px;
+
+  }
+
+
+  .app-footer {
+
+    flex-direction:
+      column;
+
+  }
+
+}
+
+
+@media (
+  max-width: 480px
+) {
+
+  .rain-stats {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .rain-monitor-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .rain-analysis-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .analysis-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .history-summary {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .top-bar__meta {
+
+    flex-wrap:
+      wrap;
+
+  }
+
+}
